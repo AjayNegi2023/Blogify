@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('./Partials/Head') %>
+  <title>Blogs</title>
+  <style>
+    .imageContainer {
+      position: relative;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .image {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    pre {
+      overflow: hidden;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+
+<body>
+  <%- include('./Partials/Nav')%>
+
+  <div class="container mt-4">
+    <div class="imageContainer">
+      <img src=" <%= blog.coverImageURL %>" alt="CoverImage" width="500px" class="image">
+    </div>
+
+
+    <h5 class="card-title"> <%= blog.title%></h5>
+    <pre> <%= blog.body %></pre>
+    
+
+
+  </div>
+  <div class="container mt-4">
+    <img src="<%= blog.createdBy.profileImageURL %>" width="50px" /><%= blog.createdBy.fullName %>
+  </div>
+
+  <div class="container mt-3">
+    <h2>Comments(<%= comments.length %>)</h2>
+   <% if(locals.user) {%>
+    <form action="/blog/comment/<%= blog._id %>" method="post">
+      <div class="mb-3">
+       
+        <input type="text" name="content" class="form-control" id="content" aria-describedby="content" placeholder="Enter Your Comment">
+        <button class="btn btn-sm btn-primary mt-2"> Submit</button>
+      </div>
+      </form>
+      
+  <% } %>
+  <div class="mt-4">
+    <% comments.forEach(comment=>{ %>
+      <div>
+        <img src="<%= comment.createdBy.profileImageURL %>" width="50px"/>
+        <%= comment.createdBy.fullName %>
+        <pre><%= comment.content %></pre>
+      </div>
+      <%}) %>
+</div>
+  </div>
+  
+  <%- include('./Partials/scripts') %>
+
+
+
+</body>
+
+</html>
